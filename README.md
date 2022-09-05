@@ -1,3 +1,3 @@
 # docker-examples
 
-Some basic projects have been dockerized in order to get proper knowledge about docker.
+Some basic projects have been dockerized to test/experiment various ways of making docker images.
