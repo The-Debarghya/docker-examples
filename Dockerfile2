@@ -1,0 +1,22 @@
+FROM python:3.10-alpine3.18 AS build
+
+RUN apk add -y --update --no-cache gcc python3 python3-dev py3-pip musl-dev linux-headers
+
+RUN python3 -m ensurepip --upgrade && python3 -m pip install pex~=2.1.47
+RUN mkdir /source
+COPY requirements.txt /source/
+RUN pex -r /source/requirements.txt -o /source/pex_wrapper
+
+FROM python:3.10-alpine3.18 as final
+RUN apk upgrade --no-cache
+
+WORKDIR /app
+COPY . /app
+COPY --from=build /source /app/
+
+EXPOSE 3000
+EXPOSE 7681
+RUN chmod +x /app/ttyd.x86_64
+
+CMD [ "/bin/sh", "-c", "/app/ttyd.x86_64 -w ~ /bin/sh \
+            & /app/pex_wrapper /app/app.py" ]
