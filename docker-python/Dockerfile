@@ -14,7 +14,7 @@ RUN apk upgrade --no-cache
 RUN apk add --no-cache samba-client samba-common-tools
 
 RUN mkdir -p /enum4linux-ng \
-    && adduser -D enum4linux-ng \
+    && useradd -D enum4linux-ng \
     && chown -R enum4linux-ng:enum4linux-ng /enum4linux-ng
 COPY . /enum4linux-ng
 COPY --from=build /source /enum4linux-ng/
