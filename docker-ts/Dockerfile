@@ -30,7 +30,7 @@ RUN npm install --omit=dev --loglevel=error
 FROM node:lts-alpine3.18 AS final
 
 RUN apk upgrade --no-cache
-
+RUN adduser -D user --shell /usr/sbin/nologin
 WORKDIR /app
 
 COPY package.json .
@@ -45,5 +45,5 @@ RUN mkdir dist
 COPY --from=builder /source/dist ./dist
 
 EXPOSE 4000
-
+USER user
 CMD [ "npm", "start" ]
