@@ -1,4 +1,4 @@
-FROM golang:1.8.3 as builder
+FROM golang:latest as builder
 WORKDIR /go/src/github.com/The-Debarghya/docker-go/findlinks
 RUN go get -d -v golang.org/x/net/html
 COPY findlinks.go .
